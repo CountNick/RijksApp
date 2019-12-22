@@ -1,4 +1,4 @@
-.nav{
+  .nav{
   display: flex;
   justify-content: space-between;
   background-color: black;
@@ -22,11 +22,9 @@ img{
   width: 30rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: ". . . ." ". . . ." ". . . .";
 }
