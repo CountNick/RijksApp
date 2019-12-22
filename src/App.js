@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Home from './components/home';
 import About from './components/about';
+import notFound from './components/notFound';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Switch>
           <Route exact path = "/" component= {Home}/>
           <Route exact path = "/about" component= {About}/>
+          <Route exact path = "*" component = {notFound}/>
         </Switch>
       </div>
 
