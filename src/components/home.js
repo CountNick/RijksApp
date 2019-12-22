@@ -1,5 +1,4 @@
 import React from 'react'
-import { REACT_APP_API_KEY } from 'react-native-dotenv'
 
 const key = process.env.REACT_APP_API_KEY
 const url = `https://www.rijksmuseum.nl/api/nl/collection?key=${key}&type=schilderij&imgonly=True`
@@ -11,26 +10,34 @@ constructor(props){
 
     this.state = {
           hits: [],
+          isLoading: false
       };
   }
 
 componentDidMount(){
+    this.setState({ isLoading: true })
+
     fetch(url)
     .then(res => {
         return res.json()
     })
     .then(data => transformObject(data))
-    .then(transformObject => this.setState({hits: transformObject}))
+    .then(transformObject => this.setState({hits: transformObject, isLoading: false}))
 
 }
   
 render() {
-    const { hits } = this.state;
+    const { hits, isLoading } = this.state;
+    
+    if(isLoading){
+        return <p>Loading...</p>
+    }
+    
     return (
       <ul>
         {hits.map(hit =>
           <li key={hit.id}>
-            <a href={hit.img}>{hit.title}</a>
+            <a href={hit.img}><img src={hit.img} alt=""></img></a>
           </li>
         )}
       </ul>
