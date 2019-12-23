@@ -1,16 +1,19 @@
-import React from 'react'
+import React from 'react';
+import Popup from 'reactjs-popup';
+import Painting from './painting'
 
 const key = process.env.REACT_APP_API_KEY
-const url = `https://www.rijksmuseum.nl/api/nl/collection?key=${key}&type=schilderij&imgonly=True`
+const url = `https://www.rijksmuseum.nl/api/nl/collection?key=${key}&search?p=1&ps=20&role=schilder&imgonly=True`
 
 class Home extends React.Component {
   
 constructor(props){
     super(props);
-
+    
     this.state = {
           hits: [],
-          isLoading: false
+          isLoading: false,
+          error: null
       };
   }
 
@@ -19,16 +22,37 @@ componentDidMount(){
 
     fetch(url)
     .then(res => {
+        if(res.ok){
         return res.json()
+        } else {
+            throw new Error ('Oopsie daysie, something went wrong')
+        }
     })
     .then(data => transformObject(data))
     .then(transformObject => this.setState({hits: transformObject, isLoading: false}))
+    .catch(error => this.setState({ error, isLoading: false }));
 
 }
   
 render() {
-    const { hits, isLoading } = this.state;
+    const Modal = () => (
+        <Popup
+        trigger={<button className="button"> Open Modal </button>}
+        modal
+        closeOnDocumentClick
+      >
+        <span> Modal content </span>
+      </Popup>
     
+    );
+
+    
+    const { hits, isLoading, error } = this.state;
+    
+    if(error){
+        return <p>{ error.message }</p>
+    }
+
     if(isLoading){
         return <p>Loading...</p>
     }
@@ -37,7 +61,14 @@ render() {
       <ul>
         {hits.map(hit =>
           <li key={hit.id}>
-            <a href={hit.img}><img src={hit.img} alt=""></img></a>
+            <Popup trigger = {< img  src={hit.img} alt=""/>}
+                    modal
+                    closeOnDocumentClick
+                    >
+            <h1>{hit.title}</h1>
+
+
+            </Popup>
           </li>
         )}
       </ul>
