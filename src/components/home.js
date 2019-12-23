@@ -35,17 +35,6 @@ componentDidMount(){
 }
   
 render() {
-    const Modal = () => (
-        <Popup
-        trigger={<button className="button"> Open Modal </button>}
-        modal
-        closeOnDocumentClick
-      >
-        <span> Modal content </span>
-      </Popup>
-    
-    );
-
     
     const { hits, isLoading, error } = this.state;
     
@@ -58,20 +47,33 @@ render() {
     }
     
     return (
-      <ul>
+      
+        <div class = "grid-container">
         {hits.map(hit =>
-          <li key={hit.id}>
-            <Popup trigger = {< img  src={hit.img} alt=""/>}
+          
+          <div key={hit.id}>
+            <Popup trigger = {< img  src={hit.headerImg} alt=""/>}
                     modal
                     closeOnDocumentClick
-                    >
-            <h1>{hit.title}</h1>
+            >
+            <div className="modal">
+                
+            <div className="header"><h1>{hit.title}</h1></div>
+            
+            <div className="content">
+            <h3>Schilder: {hit.creator}</h3>
+            <img src = {hit.img} alt = {hit.title}/>
+            <h4>Volledige titel: {hit.compTitle}</h4>
+            </div>
 
+            </div>
 
             </Popup>
-          </li>
+          </div>
+          
         )}
-      </ul>
+        </div>
+    
     );
   }
 }
@@ -79,12 +81,15 @@ render() {
 function transformObject(data){
 
     const cleanedObjects  = data.artObjects.map(object => {
-        //console.log(object)
+        console.log(object)
         return{
             title: object.title,
+            compTitle: object.longTitle,
             img: object.webImage.url,
-            headerImage: object.headerImage.url,
-            id: object.id
+            headerImg: object.headerImage.url,
+            id: object.id,
+            creator: object.principalOrFirstMaker,
+
         }
     })
      console.log(cleanedObjects)
