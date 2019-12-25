@@ -26,16 +26,8 @@ ul{
 
 img{
   width: 100%;
-  height: 100%;
 }
 
-.grid-container {
-
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: ". . . ." ". . . ." ". . . .";
-}
 
 .modal {
   font-size: 1em;
@@ -71,4 +63,36 @@ img{
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #cfcece;
+}
+
+
+@media only screen and (max-width: 320px){
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+}
+
+@media only screen and (min-width: 600px)  {
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-template-rows: 1fr 1fr 1fr;   
+  }
+
+}
+
+@media only screen and (min-width: 1000px)  {
+
+  .grid-container {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+   
+  }
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
-import Painting from './painting'
+import Painting from './painting';
+import Loading from './loading';
 
 const key = process.env.REACT_APP_API_KEY
 const url = `https://www.rijksmuseum.nl/api/nl/collection?key=${key}&search?p=1&ps=20&role=schilder&imgonly=True`
+let query = '20'
 
 class Home extends React.Component {
   
@@ -52,7 +54,7 @@ render() {
         {hits.map(hit =>
           
           <div key={hit.id}>
-            <Popup trigger = {< img  src={hit.headerImg} alt=""/>}
+            <Popup trigger = {< img src={hit.headerImg} alt="hi"/>}
                     modal
                     closeOnDocumentClick
             >
@@ -62,7 +64,8 @@ render() {
             
             <div className="content">
             <h3>Schilder: {hit.creator}</h3>
-            <img src = {hit.img} alt = {hit.title}/>
+            <img className
+            ="popup-img" src = {hit.img} alt = {hit.title}/>
             <h4>Volledige titel: {hit.compTitle}</h4>
             </div>
 
@@ -72,8 +75,8 @@ render() {
           </div>
           
         )}
+        <button>Laad meer</button>
         </div>
-    
     );
   }
 }
@@ -81,7 +84,7 @@ render() {
 function transformObject(data){
 
     const cleanedObjects  = data.artObjects.map(object => {
-        console.log(object)
+        //console.log(object)
         return{
             title: object.title,
             compTitle: object.longTitle,
