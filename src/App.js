@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import Home from './components/home';
-import About from './components/about';
-import notFound from './components/notFound';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/pages/home';
+import About from './components/pages/about';
+import notFound from './components/pages/notFound';
+import Navigation from './components/navigation'
 
 function App() {
   return (
@@ -11,16 +12,8 @@ function App() {
     <Router>
     
     <div className="App">
-      <nav>
-      <ul class = "nav">
-        <li>
-          <Link to = "/">Home</Link>
-        </li>
-        <li>
-        <Link to = "/about">About</Link>
-        </li>
-      </ul>
-      </nav>
+
+      <Navigation/>
       
       <div>
         <Switch>
