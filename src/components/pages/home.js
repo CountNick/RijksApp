@@ -1,7 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
-import Painting from './painting';
-import Loading from './loading';
+import Painting from '../painting';
+import Loading from '../loading';
 
 const key = process.env.REACT_APP_API_KEY
 const url = `https://www.rijksmuseum.nl/api/nl/collection?key=${key}&search?p=1&ps=20&role=schilder&imgonly=True`
@@ -13,7 +13,7 @@ constructor(props){
     super(props);
     
     this.state = {
-          hits: [],
+          objects: [],
           isLoading: false,
           error: null
       };
@@ -31,49 +31,43 @@ componentDidMount(){
         }
     })
     .then(data => transformObject(data))
-    .then(transformObject => this.setState({hits: transformObject, isLoading: false}))
+    .then(transformObject => this.setState({objects: transformObject, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }));
 
 }
   
 render() {
     
-    const { hits, isLoading, error } = this.state;
+    const { objects, isLoading, error } = this.state;
     
     if(error){
         return <p>{ error.message }</p>
     }
 
     if(isLoading){
-        return <p>Loading...</p>
+        return <Loading/>
     }
     
     return (
       
-        <div class = "grid-container">
-        {hits.map(hit =>
+        <div className = "grid-container">
+        {objects.map(object =>
           
-          <div key={hit.id}>
-            <Popup trigger = {< img src={hit.headerImg} alt="hi"/>}
+            <div key = {object.id}>
+            <Popup trigger = {< img src={object.headerImg} alt="hi"/>}
                     modal
                     closeOnDocumentClick
             >
             <div className="modal">
-                
-            <div className="header"><h1>{hit.title}</h1></div>
             
             <div className="content">
-            <h3>Schilder: {hit.creator}</h3>
-            <img className
-            ="popup-img" src = {hit.img} alt = {hit.title}/>
-            <h4>Volledige titel: {hit.compTitle}</h4>
+                <Painting painting = {object} />
             </div>
 
             </div>
 
             </Popup>
-          </div>
-          
+            </div>
         )}
         <button>Laad meer</button>
         </div>
